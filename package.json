@@ -1,0 +1,13 @@
+{
+  "name": "webscrap-DEX",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Wesley Ferreira <wesleyfebarretos@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^4.8.2"
+  },
+  "devDependencies": {
+    "@types/typescript": "^2.0.0"
+  }
+}
