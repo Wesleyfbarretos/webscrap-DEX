@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToMany,
+  ManyToOne,
+} from "typeorm";
 import { PokemonEntity } from "./pokemon";
 
 @Entity()
@@ -6,15 +13,12 @@ export class SpriteEntity {
   @PrimaryGeneratedColumn({ name: "id" })
   id: number;
 
-  // @Column({ name: "id_pokemon" })
-  // idPokemon: number;
-
-  @Column({ name: "img", unique: true })
+  @Column({ name: "img", unique: true, nullable: true })
   img: string;
 
   @Column({ name: "name" })
   name: string;
 
-  @OneToMany(() => PokemonEntity, (pokemon) => pokemon.sprites)
+  @ManyToOne(() => PokemonEntity, (pokemon) => pokemon.sprites)
   pokemon: PokemonEntity;
 }

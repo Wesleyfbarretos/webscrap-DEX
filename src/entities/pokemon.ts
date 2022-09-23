@@ -5,12 +5,13 @@ import {
   ManyToMany,
   JoinTable,
   ManyToOne,
+  OneToMany,
 } from "typeorm";
 import { AbilityEntity } from "./ability";
 import { SpriteEntity } from "./sprite";
 import { TypeEntity } from "./type";
 
-@Entity()
+@Entity({ name: "pokemon" })
 export class PokemonEntity {
   @PrimaryGeneratedColumn({ name: "id" })
   id: number;
@@ -18,15 +19,21 @@ export class PokemonEntity {
   @Column({ name: "name" })
   name: string;
 
-  @ManyToMany(() => AbilityEntity, (ability) => ability.pokemons)
-  @JoinTable()
+  @ManyToMany(() => AbilityEntity, (ability) => ability.pokemons, {
+    cascade: true,
+  })
+  @JoinTable({ name: "pokemon_ability" })
   abilities: AbilityEntity[];
 
-  @ManyToOne(() => SpriteEntity, (sprite) => sprite.pokemon)
-  @JoinTable()
+  @OneToMany(() => SpriteEntity, (sprite) => sprite.pokemon, {
+    cascade: true,
+  })
+  @JoinTable({ name: "pokemon_sprite" })
   sprites: SpriteEntity[];
 
-  @ManyToMany(() => TypeEntity, (type) => type.pokemons)
-  @JoinTable()
+  @ManyToMany(() => TypeEntity, (type) => type.pokemons, {
+    cascade: true,
+  })
+  @JoinTable({ name: "pokemon_type" })
   types: TypeEntity[];
 }

@@ -5,7 +5,7 @@ import {
   AbilityEntity,
   TypeEntity,
   SpriteEntity,
-} from "./entity/index";
+} from "./entities/index";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -13,8 +13,8 @@ export const AppDataSource = new DataSource({
   port: 5432,
   username: "postgres",
   password: "password",
-  database: "test6",
-  synchronize: false,
+  database: "postgres",
+  synchronize: true,
   logging: false,
   entities: [PokemonEntity, AbilityEntity, SpriteEntity, TypeEntity],
   migrations: [],
