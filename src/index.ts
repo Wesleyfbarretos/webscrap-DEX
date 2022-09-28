@@ -1,13 +1,11 @@
 import { AppDataSource } from "./data-source";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import {
   AbilityEntity,
   PokemonEntity,
   SpriteEntity,
   TypeEntity,
 } from "./entities";
-import { type } from "os";
-import { Any } from "typeorm";
 
 interface ResultApi {
   name: string;
@@ -49,11 +47,11 @@ interface ResultAll {
 AppDataSource.initialize()
   .then(async () => {
     const url = await axios.get(
-      "https://pokeapi.co/api/v2/pokemon?limit=15&offset=0"
+      "https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0"
     );
 
     const min = 500;
-    const max = 1000;
+    const max = 20000;
 
     const { results } = url.data;
 
@@ -62,7 +60,6 @@ AppDataSource.initialize()
         await new Promise((r) =>
           setTimeout(r, Math.random() * (max - min) + min)
         );
-        console.log(results.url);
         const data = await axios.get(results.url);
         const result: ResultApi = data.data;
 
@@ -109,30 +106,33 @@ AppDataSource.initialize()
     for (const result of startWebScrapping) {
       const abilityAlreadyExist = await Promise.all(
         result.abilities.map(async (ability) => {
-          const resultDb = await AppDataSource.getRepository(
+          let resultDb = await AppDataSource.getRepository(
             AbilityEntity
           ).findOneBy({
             name: ability.name,
           });
           if (resultDb === null) {
-            return await AppDataSource.manager
+            resultDb = await AppDataSource.manager
               .getRepository(AbilityEntity)
               .save(ability);
           }
+          return resultDb;
         })
       );
+
       const typeAlreadyExist = await Promise.all(
         result.types.map(async (type) => {
-          const resultDb = await AppDataSource.getRepository(
+          let resultDb = await AppDataSource.getRepository(
             TypeEntity
           ).findOneBy({
             name: type.name,
           });
           if (resultDb === null) {
-            return await AppDataSource.manager
+            resultDb = await AppDataSource.manager
               .getRepository(TypeEntity)
               .save(type);
           }
+          return resultDb;
         })
       );
 

@@ -4,7 +4,6 @@ import {
   Column,
   ManyToMany,
   JoinTable,
-  ManyToOne,
   OneToMany,
 } from "typeorm";
 import { AbilityEntity } from "./ability";

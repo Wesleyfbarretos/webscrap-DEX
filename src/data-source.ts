@@ -14,9 +14,9 @@ export const AppDataSource = new DataSource({
   username: "postgres",
   password: "password",
   database: "postgres",
-  synchronize: true,
+  synchronize: false,
   logging: false,
   entities: [PokemonEntity, AbilityEntity, SpriteEntity, TypeEntity],
-  migrations: [],
+  migrations: ["./src/migrations/*.ts"],
   subscribers: [],
 });

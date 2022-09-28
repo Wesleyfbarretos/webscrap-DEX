@@ -1,14 +1,7 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  ManyToMany,
-  ManyToOne,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { PokemonEntity } from "./pokemon";
 
-@Entity()
+@Entity({ name: "sprite" })
 export class SpriteEntity {
   @PrimaryGeneratedColumn({ name: "id" })
   id: number;
